@@ -1,3 +1,3 @@
 data/
 __pycache__/
-gan_weights.h5
+*.h5
