@@ -5,17 +5,17 @@ from keras.layers import Input, Dense, Reshape, Flatten, Dropout, LeakyReLU, Bat
 from keras.models import Model
 
 params = {
-    "data_path": os.path.join("data", "all"),  # path to directory with images
+    "data_path": os.path.join("data", "selected"),  # path to directory with images
     "latent_dim": 100,
     "im_height": 512,
     "im_width": 512,
-    "batch_size": 32,
+    "batch_size": 64,
     "epochs": 1000,
     "d_optimizer": tf.keras.optimizers.Adamax(),        # 
     "g_optimizer": tf.keras.optimizers.Adamax(),        #  optimizers for compile method
     "loss_n": tf.keras.losses.BinaryCrossentropy(),     #
 
-    "trained": True,
+    "trained": False,
     "num_images": 2,
 }
 
