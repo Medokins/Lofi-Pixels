@@ -8,7 +8,7 @@ input_image = Image.open(os.path.join("data", "to_convert", "test.jpg"))
 input_array = np.array(input_image)
 pixels = input_array.reshape(-1, 3)
 
-k = 8  # needs more testing
+k = 6  # needs more testing
 kmeans = KMeans(n_clusters=k, random_state=33).fit(pixels)
 
 labels = kmeans.labels_
