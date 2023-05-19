@@ -1,5 +1,6 @@
 import os
 
+# NOTE, this is used only for GAN.py, GAN_v2.py (better working model) has its parameters stored inside params dict
 latent_dim = 100
 g_resolution = 2
 d_resolution = 128
