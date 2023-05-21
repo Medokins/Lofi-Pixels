@@ -32,7 +32,7 @@ def pixelate(name, block_size):
                 for y in range(y_start, y_end):
                     output_image.putpixel((x, y), average_color)
 
-    output_image.save(os.path.join("data", "to_convert", f'pixelated_{name}.png'))
+    output_image.save(os.path.join("data", "converted", f'pixelated_{name}_{block_size}.png'))
 
 name = "2244"
-pixelate(name, 10)
+pixelate(name, 4)
