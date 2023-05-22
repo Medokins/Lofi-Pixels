@@ -34,5 +34,12 @@ def pixelate(name, block_size):
 
     output_image.save(os.path.join("data", "converted", f'pixelated_{name}_{block_size}.png'))
 
-name = "2244"
-pixelate(name, 4)
+def convert_all(block_size):
+    data_dir_path = os.path.join("data", "to_convert")
+    for file_name in os.listdir(data_dir_path):
+        if file_name.endswith(".jpg"):
+            name = os.path.splitext(file_name)[0]
+            pixelate(name, block_size)
+
+
+convert_all(4)
