@@ -40,6 +40,3 @@ def convert_all(block_size):
         if file_name.endswith(".jpg"):
             name = os.path.splitext(file_name)[0]
             pixelate(name, block_size)
-
-
-convert_all(4)
