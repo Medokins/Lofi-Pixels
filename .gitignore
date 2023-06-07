@@ -1,5 +1,6 @@
 data/all
-data/converted
 data/selected
+data/to_convert
+data/converted
 __pycache__/
 *.h5
