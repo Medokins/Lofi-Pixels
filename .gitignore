@@ -1,4 +1,5 @@
-data/*.jpg
-data/*.png
+data/all
+data/converted
+data/selected
 __pycache__/
 *.h5
