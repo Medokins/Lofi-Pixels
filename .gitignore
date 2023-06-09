@@ -3,6 +3,7 @@ data/selected
 data/to_convert
 data/converted
 data/downloaded
+data/temp
 data/api_key.json
 __pycache__/
 *.h5
