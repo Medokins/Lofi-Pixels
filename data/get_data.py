@@ -2,6 +2,12 @@ import requests
 import json
 
 def get_data(per_page=10, image_type="sunset"):
+    """
+    Args:
+        per_page (int, optional): The number of to download. Default is 10.
+        image_type (str, optional): The type of images to download. Default is "sunset".
+    """
+
     with open('data/api_key.json') as file:
         api_keys = json.load(file)
     api_key = api_keys['api_key']
