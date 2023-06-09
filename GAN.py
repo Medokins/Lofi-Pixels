@@ -1,23 +1,9 @@
 import tensorflow as tf
-import os
 import matplotlib.pyplot as plt
 from keras.layers import Input, Dense, Reshape, Flatten, Dropout, LeakyReLU, BatchNormalization, Conv2DTranspose, Conv2D
 from keras.models import Model
+from settings import params
 
-params = {
-    "data_path": os.path.join("data", "selected"),  # path to directory with images
-    "latent_dim": 100,
-    "im_height": 512,
-    "im_width": 512,
-    "batch_size": 64,
-    "epochs": 1000,
-    "d_optimizer": tf.keras.optimizers.Adamax(),        # 
-    "g_optimizer": tf.keras.optimizers.Adamax(),        #  optimizers for compile method
-    "loss_n": tf.keras.losses.BinaryCrossentropy(),     #
-
-    "trained": False,
-    "num_images": 2,
-}
 
 class GAN_v2(tf.keras.Model):
     def __init__(self):  
@@ -170,5 +156,3 @@ def run_GAN(trained=False):
     else:
         model.train(params["epochs"])
     generate_images(model, params["latent_dim"], params["num_images"])
-
-run_GAN(trained=params["trained"])
