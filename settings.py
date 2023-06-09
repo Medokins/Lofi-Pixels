@@ -12,6 +12,6 @@ params = {
     "g_optimizer": tf.keras.optimizers.Adamax(),        #  optimizers for compile method
     "loss_n": tf.keras.losses.BinaryCrossentropy(),     #
 
-    "trained": False,
-    "num_images": 2,
+    "trained": False, # whether or not the model was trained
+    "num_images": 2,  # num of images to generate 
 }
