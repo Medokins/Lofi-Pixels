@@ -2,7 +2,7 @@ import os
 import tensorflow as tf
 
 params = {
-    "data_path": os.path.join("data", "selected"),  # path to directory with images on which GAN is trained
+    "data_path": os.path.join("data", "converted"),  # path to directory with images on which GAN is trained
     "latent_dim": 100,
     "im_height": 512,
     "im_width": 512,
