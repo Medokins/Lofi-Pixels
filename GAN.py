@@ -5,14 +5,14 @@ from keras.models import Model
 from settings import params
 
 
-class GAN_v2(tf.keras.Model):
+class GAN(tf.keras.Model):
     def __init__(self):  
         if len(tf.config.list_physical_devices('GPU')):
             print("Using GPU")
             gpu_devices = tf.config.experimental.list_physical_devices('GPU')
             tf.config.experimental.set_visible_devices(gpu_devices[0], 'GPU')
 
-        super(GAN_v2, self).__init__()
+        super(GAN, self).__init__()
         self.data_path = params["data_path"]
         self.latent_dim = params["latent_dim"]
         self.im_height = params["im_height"]
@@ -93,7 +93,7 @@ class GAN_v2(tf.keras.Model):
         return discriminator
     
     def compile(self, d_optimizer, g_optimizer, loss_fn):
-        super(GAN_v2, self).compile()
+        super(GAN, self).compile()
         self.d_optimizer = d_optimizer
         self.g_optimizer = g_optimizer
         self.loss_fn = loss_fn
@@ -133,7 +133,7 @@ class GAN_v2(tf.keras.Model):
                     print(f"Batch {i+1}/{len(self.normalized_data)} - d_loss: {d_loss:.4f}, g_loss: {g_loss:.4f}")
 
         name = params["data_path"].split("\\")[1]
-        self.save_weights(f'Gan_v2_{params["epochs"]}_{params["batch_size"]}_{name}.h5')
+        self.save_weights(f'Gan_{params["epochs"]}_{params["batch_size"]}_{name}.h5')
         
 
 def generate_images(model, latent_dim, num_images):
@@ -141,18 +141,18 @@ def generate_images(model, latent_dim, num_images):
     generated_images = model.generator(noise, training=False)
     generated_images = generated_images.numpy()
 
-    _, axs = plt.subplots(1, num_images, figsize=(20, 20))
+    _, axs = plt.subplots(1, num_images, figsize=(12, 12))
     for i in range(num_images):
         axs[i].imshow(generated_images[i])
         axs[i].axis('off')
     plt.show()
 
 def run_GAN(trained=False):
-    model = GAN_v2()
+    model = GAN()
     if trained:
         name = params["data_path"].split("\\")[1]
         model(tf.zeros((1, params["latent_dim"])))
-        model.load_weights(f'Gan_v2_{params["epochs"]}_{params["batch_size"]}_{name}.h5')
+        model.load_weights(f'Gan_{params["epochs"]}_{params["batch_size"]}_{name}.h5')
     else:
         model.train(params["epochs"])
     generate_images(model, params["latent_dim"], params["num_images"])
