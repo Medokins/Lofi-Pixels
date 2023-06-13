@@ -7,11 +7,11 @@ params = {
     "im_height": 512,
     "im_width": 512,
     "batch_size": 64,
-    "epochs": 1000,
+    "epochs": 256,
     "d_optimizer": tf.keras.optimizers.Adamax(),        # 
     "g_optimizer": tf.keras.optimizers.Adamax(),        #  optimizers for compile method
     "loss_n": tf.keras.losses.BinaryCrossentropy(),     #
 
     "trained": False, # whether or not the model was trained
-    "num_images": 2,  # num of images to generate 
+    "num_images": 5,  # num of images to generate 
 }
