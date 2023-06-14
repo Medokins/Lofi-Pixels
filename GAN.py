@@ -1,5 +1,6 @@
 import tensorflow as tf
 import matplotlib.pyplot as plt
+from tqdm import tqdm
 from keras.layers import Input, Dense, Reshape, Flatten, Dropout, LeakyReLU, BatchNormalization, Conv2DTranspose, Conv2D
 from keras.models import Model
 from settings import params
@@ -101,7 +102,7 @@ class GAN(tf.keras.Model):
         self.generator_loss = tf.keras.metrics.Mean(name="generator_loss")
 
     def train(self, epochs):
-        for epoch in range(epochs):
+        for epoch in tqdm(range(epochs)):
             print(f"Epoch {epoch+1}/{epochs}")
             for i, images in enumerate(self.normalized_data):
                 batch_size = images.shape[0]
@@ -113,8 +114,8 @@ class GAN(tf.keras.Model):
                     real_outputs = self.discriminator(images, training=True)
                     fake_outputs = self.discriminator(generated_images, training=True)
 
-                    d_real_loss = tf.keras.losses.BinaryCrossentropy(from_logits=True)(tf.ones_like(real_outputs), real_outputs)
-                    d_fake_loss = tf.keras.losses.BinaryCrossentropy(from_logits=True)(tf.zeros_like(fake_outputs), fake_outputs)
+                    d_real_loss = tf.keras.losses.BinaryCrossentropy()(tf.ones_like(real_outputs), real_outputs)
+                    d_fake_loss = tf.keras.losses.BinaryCrossentropy()(tf.zeros_like(fake_outputs), fake_outputs)
                     d_loss = d_real_loss + d_fake_loss
 
                 d_gradients = tape.gradient(d_loss, self.discriminator.trainable_variables)
@@ -124,13 +125,19 @@ class GAN(tf.keras.Model):
                     generated_images = self.generator(noise, training=True)
                     fake_outputs = self.discriminator(generated_images, training=True)
 
-                    g_loss = tf.keras.losses.BinaryCrossentropy(from_logits=True)(tf.ones_like(fake_outputs), fake_outputs)
+                    g_loss = tf.keras.losses.BinaryCrossentropy()(tf.ones_like(fake_outputs), fake_outputs)
 
                 g_gradients = tape.gradient(g_loss, self.generator.trainable_variables)
                 self.g_optimizer.apply_gradients(zip(g_gradients, self.generator.trainable_variables))
 
+                # Update loss metrics
+                self.discriminator_loss.update_state(d_loss)
+                self.generator_loss.update_state(g_loss)
+
                 if (i+1) % 10 == 0:
                     print(f"Batch {i+1}/{len(self.normalized_data)} - d_loss: {d_loss:.4f}, g_loss: {g_loss:.4f}")
+
+            print(f"Epoch {epoch+1} - discriminator_loss: {self.discriminator_loss.result():.4f}, generator_loss: {self.generator_loss.result():.4f}")
 
         name = params["data_path"].split("\\")[1]
         self.save_weights(f'Gan_{params["epochs"]}_{params["batch_size"]}_{name}.h5')
@@ -156,3 +163,5 @@ def run_GAN(trained=False):
     else:
         model.train(params["epochs"])
     generate_images(model, params["latent_dim"], params["num_images"])
+
+run_GAN(trained=False)
